@@ -1,0 +1,20 @@
+// data/users.js
+import fs from 'fs';
+const filePath = './data/users.json';
+
+export function getUsers() {
+  if (!fs.existsSync(filePath)) return [];
+  const data = fs.readFileSync(filePath);
+  return JSON.parse(data);
+}
+
+export function addUser(username, password) {
+  const users = getUsers();
+  users.push({ username, password });
+  fs.writeFileSync(filePath, JSON.stringify(users));
+}
+
+export function findUser(username, password) {
+  const users = getUsers();
+  return users.find(u => u.username === username && u.password === password);
+}
